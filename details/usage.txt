@@ -1,0 +1,120 @@
+Usage
+Human library does not require special initialization
+All configuration is done in a single JSON object and all model weights are dynamically loaded upon their first usage
+(and only then, Human will not load weights that it doesn't need according to configuration).
+
+
+There is only ONE method you need:
+
+  // 'image': can be of any type of an image object: HTMLImage, HTMLVideo, HTMLMedia, Canvas, Tensor4D  
+  // 'config': optional parameter used to override any options present in default configuration  
+  // configuration is fully dynamic and can change between different calls to 'detect()'  
+  const result = await human.detect(image, config?)
+or if you want to use promises
+
+  human.detect(image, config?).then((result) => {
+    // your code
+  })
+Additionally, Human library exposes several objects and methods:
+
+  human.version       // string containing version of human library
+  human.tf            // instance of tfjs used by human
+  human.config        // access to configuration object, normally set as parameter to detect()
+  human.state         // <string> describing current operation in progress
+                      // progresses through: 'config', 'check', 'backend', 'load', 'run:<model>', 'idle'
+  human.sysinfo       // object containing current client platform and agent
+  human.load(config)  // explicitly call load method that loads configured models
+                      // if you want to pre-load them instead of on-demand loading during 'human.detect()'
+  human.image(image, config?) // runs image processing without detection and returns canvas
+  human.warmup(config, image? // warms up human library for faster initial execution after loading
+                              // if image is not provided, it will generate internal sample
+  human.simmilarity(embedding1, embedding2) // runs simmilarity calculation between two provided embedding vectors
+                                            // vectors for source and target must be previously detected using
+                                            // face.embedding module
+  human.enhance(face) // returns enhanced tensor of a previously detected face that can be used for visualizations
+Additional functions used for face recognition:
+For details, see embedding documentation
+
+  human.simmilarity(embedding1, embedding2) // runs simmilarity calculation between two provided embedding vectors
+                                            // vectors for source and target must be previously detected using
+                                            // face.embedding module
+  human.match(embedding, db, threshold)     // finds best match for current face in a provided list of faces
+  human.enhance(face) // returns enhanced tensor of a previously detected face that can be used for visualizations
+Internal list of modules and objects used by current instance of Human:
+
+  human.models        // dynamically maintained list of object of any loaded models
+  human.classes       // dynamically maintained list of classes that perform detection on each model
+Additional helper functions inside human.draw:
+
+  human.draw.canvas(inCanvas, outCanvas)     // simply copies one canvas to another,  
+                                             // can be used to draw results.canvas to user canvas on page
+  human.draw.face(canvas, results.face)      // draw face detection results to canvas
+  human.draw.body(canvas, results.body)      // draw body detection results to canvas
+  human.draw.hand(canvas, result.hand)       // draw hand detection results to canvas
+  human.draw.gesture(canvas, result.gesture) // draw detected gesture results to canvas
+Style of drawing is configurable via human.draw.drawOptions object:
+
+  color: 'rgba(173, 216, 230, 0.3)',    // 'lightblue' with light alpha channel
+  labelColor: 'rgba(173, 216, 230, 1)', // 'lightblue' with dark alpha channel
+  shadowColor: 'black',                 // draw shadows underneath labels, set to blank to disable
+  font: 'small-caps 16px "Segoe UI"',   // font used for labels
+  lineHeight: 20,                       // spacing between lines for multi-line labels
+  lineWidth: 6,                         // line width of drawn polygons
+  drawPoints: true,                     // draw detected points in all objects
+  pointSize: 2,                         // size of points
+  drawLabels: true,                     // draw labels with detection results
+  drawBoxes: true,                      // draw boxes around detected faces
+  roundRect: 8,                         // should boxes have round corners and rounding value
+  drawPolygons: true,                   // draw polygons such as body and face mesh
+  fillPolygons: true,                   // fill polygons in face mesh
+  useDepth: true,                       // use z-axis value when available to determine color shade
+  useCurves: true,                      // draw polygons and boxes using smooth curves instead of lines
+  bufferedOutput: false,                // experimental: buffer and interpolate results between frames
+
+Example simple app that uses Human to process video input and
+draw output on screen using internal draw helper functions
+
+import Human from '@vladmandic/human';
+
+// create instance of human with simple configuration using default values
+const config = { backend: 'webgl' };
+const human = new Human(config);
+
+function detectVideo() {
+  // select input HTMLVideoElement and output HTMLCanvasElement from page
+  const inputVideo = document.getElementById('video-id');
+  const outputCanvas = document.getElementById('canvas-id');
+  // perform processing using default configuration
+  human.detect(inputVideo).then((result) => {
+    // result object will contain detected details
+    // as well as the processed canvas itself
+    // so lets first draw processed frame on canvas
+    human.draw.canvas(result.canvas, outputCanvas);
+    // then draw results on the same canvas
+    human.draw.face(outputCanvas, result.face);
+    human.draw.body(outputCanvas, result.body);
+    human.draw.hand(outputCanvas, result.hand);
+    human.draw.gesture(outputCanvas, result.gesture);
+    // loop immediate to next frame
+    requestAnimationFrame(detectVideo);
+  });
+}
+
+detectVideo();
+
+Note that when using Human library in NodeJS, you must load and parse the image before you pass it for detection and dispose it afterwards
+Input format is Tensor4D[1, width, height, 3] of type float32
+
+For example:
+
+  const imageFile = '../assets/sample1.jpg';
+  const buffer = fs.readFileSync(imageFile);
+  const decoded = tf.node.decodeImage(buffer);
+  const casted = decoded.toFloat();
+  const image = casted.expandDims(0);
+  decoded.dispose();
+  casted.dispose();
+  logger.log('Processing:', image.shape);
+  const human = new Human.Human();
+  const result = await human.detect(image, config);
+  image.dispose();

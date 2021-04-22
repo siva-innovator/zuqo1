@@ -1,0 +1,35 @@
+Backends
+Human library includes pre-bundled CPU, WASM and WebGL backends, there is no need to load them externally.
+
+
+Notes
+CPU backend usage is not recommended for performance reasons
+as TensorFlow implementation in JavaScript is by far the slowest
+WebGL backend usage is fastest on systems with modern GPU
+although startup speed is a bit slower
+WASM backend has good resuts under specific conditions:
+Enable WASM SIMD support in your browser
+(CPU parallel processing instructions)
+Reduce size of input image (e.g. webcam)
+as WASM does not have optimized image extraction methods
+How to enable WASM SIMD support
+Chrome:
+
+Navigate to chrome://flags
+WebAssembly SIMD support set to Enabled
+Edge:
+
+Navigate to chrome://flags
+WebAssembly SIMD support set to Enabled
+Firefox:
+
+Navigate to about:config
+javascript.options.wasm_simd set to True
+
+Known Issues
+WASM backend without SIMD has limited processing capabilities before it causes issues
+To avoid issues, start human with most models disabled and if needed, enable them one by one as each initializes
+Typical errors messages are:
+Uncaught (in promise) Error: undefined tfjs-backend-wasm.wasm or
+RuntimeError: memory access out of bounds in tfjs-backend-wasm.wasm
+NodeJS backend is missing key operations and thus neither Face nor Hand models are currently supported

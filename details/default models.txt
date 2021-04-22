@@ -1,0 +1,15 @@
+Default models
+Default models in Human library are:
+
+Face Detection: MediaPipe BlazeFace-Back
+Face Mesh: MediaPipe FaceMesh
+Face Iris Analysis: MediaPipe Iris
+Emotion Detection: Oarriaga Emotion
+Gender Detection: Oarriaga Gender
+Age Detection: SSR-Net Age IMDB
+Body Analysis: PoseNet
+Face Embedding: BecauseofAI MobileFace Embedding
+Note that alternative models are provided and can be enabled via configuration
+For example, PoseNet model can be switched for BlazePose model depending on the use case
+
+For more info, see Configuration Details and List of Models

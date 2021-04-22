@@ -1,0 +1,22 @@
+Models
+Default models in Human library
+Default models in Human library are:
+
+Face Detection: MediaPipe BlazeFace-Back
+Face Mesh: MediaPipe FaceMesh
+Face Iris Analysis: MediaPipe Iris
+Emotion Detection: Oarriaga Emotion
+Gender Detection: Oarriaga Gender
+Age Detection: SSR-Net Age IMDB
+Body Analysis: PoseNet
+Face Embedding: BecauseofAI MobileFace Embedding
+Notes
+Body detection can be switched from PoseNet to BlazePose depending on the use case:
+
+PoseNet: Works with multiple people in frame, works with only partial people
+Best described as works-anywhere, but not with great precision
+BlazePose: Works with single person in frame and that person should be fully visibile
+But if conditions are met, it returns far more details (39 vs 17 keypoints) and is far more accurate
+Furthermore, it returns 3D approximation of each point instead of 2D
+
+Gender detection can be switched from the default model to SSR-Net trained on IMDB dataset

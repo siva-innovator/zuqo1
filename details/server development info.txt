@@ -1,0 +1,97 @@
+Development Server
+Dev Server
+To use dev server, you must have an SSL certificate since browsers enforce https for webcam access
+
+You can use a provided ones self-signed certificate or configure your own
+
+Self-signed test certificate was generated using:
+
+openssl req -x509 -newkey rsa:4096 -nodes -keyout https.key -out https.crt -days 365 -subj "/C=US/ST=Florida/L=Miami/O=@siva"
+If you want to use your own certificate, edit server/dev.js:
+
+const options = {
+  key: fs.readFileSync('server/https.key'),
+  cert: fs.readFileSync('server/https.crt'),
+};
+Once SSL certificates have been provided (defalt test certificate or your own), simply run
+
+npm run dev
+On first start, it will install all development dependencies required to rebuild Human library
+Dev version of the library runs without code minification for easier debugging while production version is fully minified
+
+By default, secure http2 web server will run on port 10031 and unsecure http server will run on port 10030 which is configurable in server/dev.js:options.port
+
+npm run dev
+
+> @siva/human@0.9.15 dev /home/vlado/dev/human
+> npm install && node server/dev.js
+
+audited 327 packages in 2.71s
+found 0 vulnerabilities
+
+2020-12-12 10:12:52 INFO:  @siva/human version 0.9.15
+2020-12-12 10:12:52 INFO:  User: vlado Platform: linux Arch: x64 Node: v15.0.1
+2020-12-12 10:12:52 INFO:  Build: file startup all target: es2018
+2020-12-12 10:12:52 STATE:  HTTP server listening: 10030
+2020-12-12 10:12:52 STATE:  HTTP2 server listening: 10031
+2020-12-12 10:12:52 STATE:  Monitoring: [ 'package.json', 'config.ts', 'demo', 'src', [length]: 4 ]
+2020-12-12 10:12:52 STATE:  Build for: browserBundle type: tfjs: { modules: 1061, moduleBytes: 3772720, imports: 7, importBytes: 1784, outputBytes: 1522244, outputFiles: 'dist/tfjs.esm.js' }
+2020-12-12 10:12:53 STATE:  Build for: browserBundle type: iife: { imports: 37, importBytes: 1982201, outputBytes: 1830260, outputFiles: 'dist/human.js' }
+2020-12-12 10:12:53 STATE:  Build for: browserBundle type: esm: { imports: 37, importBytes: 1982201, outputBytes: 1830186, outputFiles: 'dist/human.esm.js' }
+2020-12-12 10:12:54 STATE:  Build for: browserBundle type: demo: { imports: 5, importBytes: 1890884, outputBytes: 1876862, outputFiles: 'dist/demo-browser-index.js' }
+2020-12-12 10:12:54 DATA:  GET/2.0 200 text/html 6463 / ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 image/x-icon 5063 /favicon.ico ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 text/javascript 1876862 /dist/demo-browser-index.js ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/octet-stream 141672 /assets/fa-solid-900.woff2 ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/octet-stream 181500 /assets/lato-light.woff2 ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/json 79014 /models/blazeface-back.json ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/json 89231 /models/facemesh.json ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/json 121966 /models/iris.json ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/json 94507 /models/age.json ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/json 93349 /models/gender.json ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/json 17954 /models/emotion.json ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/json 48039 /models/posenet.json ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/json 128180 /models/handdetect.json ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/json 129067 /models/handskeleton.json ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/octet-stream 538928 /models/blazeface-back.bin ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/octet-stream 2599092 /models/iris.bin ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/octet-stream 2955780 /models/facemesh.bin ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/octet-stream 161240 /models/age.bin ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/octet-stream 5032780 /models/posenet.bin ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/octet-stream 161236 /models/gender.bin ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/octet-stream 7031064 /models/handdetect.bin ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/octet-stream 820516 /models/emotion.bin ::ffff:192.168.0.200
+2020-12-12 10:12:55 DATA:  GET/2.0 200 application/octet-stream 5502280 /models/handskeleton.bin ::ffff:192.168.0.200
+...
+Human as a Daemon
+If you want to run Human as a systemd service on Linux,
+take a look at included sample human.service file and
+modify NodeJS path in ExecStart and your working folder in WorkingDirectory
+
+[Unit]
+Description=human
+After=network.target network-online.target
+
+[Service]
+Type=simple
+Environment="NODE_ENV=production"
+ExecStart=/home/vlado/.nvm/versions/node/v15.7.0/bin/node server/serve.js
+WorkingDirectory=/home/vlado/dev/human
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=300
+User=vlado
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target
+To activate service:
+
+copy the content to your /etc/systemd/system folder
+reload service configuration: sudo systemctl daemon-reload
+start service with: sudo systemctl start human
+stop service with: sudo systemctl stop human
+check status with: sudo systemctl status human
+to run service on system startup: sudo systemctl enable human
+to disable running service on system startup: sudo systemctl disable human

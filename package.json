@@ -1,0 +1,70 @@
+{
+    "name": "siva/zuqo human",
+    "version": "0.10.2",
+    "description": "Human: AI-powered 3D Face Detection, Face Embedding & Recognition, Body Pose Tracking, Hand & Finger Tracking, Iris Analysis, Age & Gender & Emotion Prediction & Gesture Recognition",
+    "sideEffects": false,
+    "main": "dist/human.node.js",
+    "module": "dist/human.esm.js",
+    "browser": "dist/human.esm.js",
+    "author": "Siva Shankar <sivarvs11@gmail.com>",
+    "bugs": {
+        "url": "https://zuqo.io"
+    },
+    "homepage": "https://zuqo.io#readme",
+    "license": "MIT",
+    "engines": {
+        "node": ">=12.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://zuqo.io.git"
+    },
+    "dependencies": {},
+    "peerDependencies": {},
+    "devDependencies": {
+        "@tensorflow/tfjs": "^2.8.5",
+        "@tensorflow/tfjs-backend-cpu": "^2.8.5",
+        "@tensorflow/tfjs-backend-wasm": "^2.8.5",
+        "@tensorflow/tfjs-backend-webgl": "^2.8.5",
+        "@tensorflow/tfjs-converter": "^2.8.5",
+        "@tensorflow/tfjs-core": "^2.8.5",
+        "@tensorflow/tfjs-data": "^2.8.5",
+        "@tensorflow/tfjs-layers": "^2.8.5",
+        "@tensorflow/tfjs-node": "^2.8.5",
+        "@tensorflow/tfjs-node-gpu": "^2.8.5",
+        "@siva/pilogger": "^0.2.12",
+        "chokidar": "^3.5.1",
+        "dayjs": "^1.10.4",
+        "esbuild": "^0.8.34",
+        "eslint": "^7.18.0",
+        "eslint-config-airbnb-base": "^14.2.1",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-json": "^2.1.2",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "rimraf": "^3.0.2",
+        "seedrandom": "^3.0.5",
+        "simple-git": "^2.31.0"
+    },
+    "scripts": {
+        "start": "node --trace-warnings --unhandled-rejections=strict --trace-uncaught --no-deprecation src/node.js",
+        "lint": "eslint src/*.js demo/*.js",
+        "dev": "npm install && node server/dev.js",
+        "build": "npm install && rimraf dist/* && node server/build.js && node server/changelog.js",
+        "update": "npm update --depth 20 --force && npm dedupe && npm prune && npm audit"
+    },
+    "keywords": [
+        "tensorflowjs",
+        "face-detection",
+        "face-geometry",
+        "face-embedding",
+        "face-recognition",
+        "body-tracking",
+        "hand-tracking",
+        "iris-tracking",
+        "age-estimation",
+        "emotion-detection",
+        "gender-prediction",
+        "gesture-recognition"
+    ]
+}
